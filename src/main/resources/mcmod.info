@@ -1,0 +1,16 @@
+[
+{
+  "modid": "paicha_dev",
+  "name": "ForgeModLoaderじゃないよ",
+  "description": "5zig = trash.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/luna724/fakemodulelist",
+  "updateUrl": "",
+  "authorList": ["luna724"],
+  "credits": "by luna724.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

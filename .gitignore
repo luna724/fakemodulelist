@@ -1,0 +1,10 @@
+build/
+.idea/
+.gradle/
+META-INF/
+previous_backup/
+run/
+__pycache__/
+*.pyc
+py/*.txt
+py/*.json

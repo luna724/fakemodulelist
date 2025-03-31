@@ -1,0 +1,2 @@
+ya--i
+omaeba--ka

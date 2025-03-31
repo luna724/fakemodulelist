@@ -24,4 +24,21 @@ ArrayListのようなテキストを画面右上、または左上に表示す�
 | 5zig | `throw IllegalArgumentException("5zig = trash.")` | \<\> |
 
 
+## モジュール追加方法
+1. `/fml new` でファイルを生成
+2. `/fml open` でディレクトリを開く
+3. `fakeModuleList.json` をエディタで開く
+4. 以下の規則のjsonを書く
+
+```json
+{
+  "なんでもいいけどかぶっちゃダメ": ["モジュール名", "モード(省略可)"],
+	"a": ["Module", "Mode"],
+	"b": ["RageQuit", "Manual"],
+	"c": ["PlayerControll", "Keyboard"],
+	"d": ["FakeModule"]
+}
+```
+
+
 #### [基本githubに落ちてるベータ版を配布する場所](https://discord.gg/bVkYkfZyJZ)

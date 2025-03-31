@@ -42,5 +42,7 @@ ArrayListのようなテキストを画面右上、または左上に表示す�
 }
 ```
 
+5. 保存したら `/fml rld` で適用
+
 
 #### [基本githubに落ちてるベータ版を配布する場所](https://discord.gg/bVkYkfZyJZ)

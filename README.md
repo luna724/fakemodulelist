@@ -1,2 +1,27 @@
-ya--i
-omaeba--ka
+## [Fake Module List](https://discord.gg/bVkYkfZyJZ)
+- [5zig = trash.](https://discord.gg/bVkYkfZyJZ)
+
+ArrayListのようなテキストを画面右上、または左上に表示するだけのModです。 <br />
+カスタムフォントやアニメーションもなく、ただのテキストです <br />
+使う理由があるとすれば、5zigが嫌いだったり ChromaHUDでちょっとづつ調整するのがだるかったりしたときとか
+
+
+## `/fm help` から飛んだ人向け / Features
+- prefix: `/fml | /fm | /fakemodules`
+
+| \<arg1\> | 説明 | \<..args\> |
+| :----: | :--: | :------: |
+| toggle | 描画の切り替え | \<\> |
+| size | 文字サイズの指定 | \<size:float\> |
+| gap | 画面端との距離 | \<textGap(px):float\> |
+| shadow | 文字の影の切り替え | \<\> |
+| color | 未指定時の文字色 | \<color(hex):int16\> |
+| open, folder, dir, config | 設定フォルダを開く | \<\> |
+| help, readme, info, site | [ここ](https://github.com/luna724/fakemodulelist)に飛ぶ | \<\> |
+| discord | [ここ](https://discord.gg/bVkYkfZyJZ)か[ここ](https://discord.gg/lunaclient)に飛ぶ | (bVkYkfZyJZ \| lunaclient) |
+| update, rld, reload | FakeModuleList.jsonの再読み込み | \<\> |
+| new | FakeModuleList.jsonの作成 | \<\> |
+| 5zig | `throw IllegalArgumentException("5zig = trash.")` | \<\> |
+
+
+#### [基本githubに落ちてるベータ版を配布する場所](https://discord.gg/bVkYkfZyJZ)

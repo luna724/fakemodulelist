@@ -12,10 +12,12 @@ import java.io.File
 data class ConfigObj(
     var isEnabled: Boolean = true,
     var textGap: Float = 5f,
-    var defaultTextColor: Int = 0xFFFFFF,
+    var defaultTextColor: Int = 0xFFFFFF, // TODO
     var defaultTextShadow: Boolean = true,
     var gapEachText: Float = 2f,
     var textScale: Float = 1.2f,
+    var descItalic: Boolean = false,
+    var sortByLength: Boolean = true,
 )
 
 class Config(configFile: File) {

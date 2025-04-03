@@ -12,6 +12,7 @@ import net.minecraft.util.BlockPos
 import net.minecraft.util.ChatComponentText
 import java.awt.Desktop
 import java.io.File
+import kotlin.system.exitProcess
 
 class Command : CommandBase() {
     override fun getCommandName(): String = "fml"
@@ -28,13 +29,18 @@ class Command : CommandBase() {
                 args,
                 "toggle", "size", "gap", "shadow", "color", "open", "folder", "dir", "config",
                 "help", "readme", "info", "site", "update", "rld", "reload", "new",
+                "textgap", "sort", "sortbylength", "lengthsort", "italic",
             )
         }
         return null
     }
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
-        val trig = args.getOrNull(0)?.lowercase() ?: return
+        val trig = args.getOrNull(0)?.lowercase()
+        if (trig == null) {
+            ChatLib.chat("$HEADER §c/fml help")
+            return
+        }
 
         if (trig == "toggle") {
             config.isEnabled = !config.isEnabled
@@ -72,6 +78,25 @@ class Command : CommandBase() {
             configManager.saveNow()
             return
         }
+        else if (trig == "textgap") {
+            val gap = args.getOrNull(1)?.replace(",", ".")?.toFloatOrNull()
+            if (gap == null) {
+                ChatLib.chat("$HEADER /fml textgap <textGap:float> §cギャップはFloat型で指定してください")
+                return
+            }
+
+            config.gapEachText = gap
+            ChatLib.chat("$HEADER §a§lTextGap§r: §d§n${config.gapEachText}§r§7(px)§r")
+            configManager.saveNow()
+            return
+        }
+        else if (trig == "sort" || trig == "sortbylength" || trig == "lengthsort") {
+            config.sortByLength = !config.sortByLength
+
+            ChatLib.chat("$HEADER §8SortByLength§r: ${if (config.sortByLength) "§a§lEnabled" else "§c§lDisabled"}")
+            configManager.saveNow()
+            return
+        }
         else if (trig == "shadow") {
             config.defaultTextShadow = !config.defaultTextShadow
 
@@ -79,9 +104,32 @@ class Command : CommandBase() {
             configManager.saveNow()
             return
         }
+        else if (trig == "italic") {
+            config.descItalic = !config.descItalic
+
+            ChatLib.chat("$HEADER §8DescItalic§r: ${if (config.descItalic) "§a§lEnabled" else "§c§lDisabled"}")
+            configManager.saveNow()
+            return
+        }
         else if (trig == "color") {
             ChatLib.chat("$HEADER §716進数の検出をしたい気分じゃなかったんだ!!!!!!!!!!")
             return
+        }
+        else if (trig == "discord") {
+            var invite = args.getOrNull(1)?.lowercase() ?: "724"
+            if (invite == "724" || invite == "bvkykfzyjz") {
+                invite = "bVkYkfZyJZ"
+            } else if (invite == "lunaclient" || invite == "lunaclinet") {
+                invite = "lunaclient"
+            }
+            val url = "https://discord.gg/$invite"
+            Util.openURL(url)
+            return
+        }
+
+        else if (trig == "5zig") {
+            throw IllegalArgumentException("5zig = trash.")
+            exitProcess(-1)
         }
 
         else if (trig == "folder" || trig == "open" || trig == "dir" || trig == "config") {
@@ -91,7 +139,7 @@ class Command : CommandBase() {
                 if (Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().open(targetFolder)
                 } else {
-                    ChatLib.chat("$HEADER §cデスクトップ操作はこのプラットフォームでサポートされていません。")
+                    ChatLib.chat("$HEADER §cデスクトップ操作はこのプラットフォームでサポートされていません。java.awtに文句言ってください")
                 }
             } catch (e: Exception) {
                 ChatLib.chat("$HEADER §cフォルダを開けませんでした: §7${e.message}")
@@ -101,19 +149,8 @@ class Command : CommandBase() {
 
         else if (trig == "help" || trig == "readme" || trig == "info" || trig == "site") {
             // offline helpとかない
-            val url = "https://discord.gg/lunaclient"
-            try {
-                val uri = java.net.URI(url)
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().browse(uri)
-                } else {
-                    ChatLib.chat("$HEADER §cFailed to open§f:§r $url")
-                    ChatLib.chat("$HEADER §cデスクトップ操作はこのプラットフォームでサポートされていません。java.awtに文句言ってください")
-                }
-            } catch (e: Exception) {
-                ChatLib.chat("$HEADER §cFailed to open§f:§r $url")
-                ChatLib.chat("$HEADER §cURLを開けませんでした: §7${e.message}")
-            }
+            val url = "https://github.com/luna724/fakemodulelist"
+            Util.openURL(url)
             return
         }
 
@@ -132,12 +169,11 @@ class Command : CommandBase() {
 
             fakeModuleListFile.parentFile.mkdirs()
             fakeModuleListFile.writeText("{}")
-            ChatLib.command("fml open")
+            this.processCommand(sender, arrayOf("open"))
             ChatLib.chat("$HEADER §aFakeModuleList.jsonを作成しました。")
             return
         }
         // TODO: コマンドからモジュールを追加、変更、削除できるように
-
 
         else {
             sender.addChatMessage(ChatComponentText("$HEADER §cUnknown command §f($trig)"))

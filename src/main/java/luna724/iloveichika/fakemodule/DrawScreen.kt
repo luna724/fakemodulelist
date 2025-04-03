@@ -26,7 +26,11 @@ class DrawScreen {
 
         return try {
             val jsonContent = fakeModuleListFile.readText()
-            Json.decodeFromString<Map<String, Array<String>>>(jsonContent)
+            val jsonParser = Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            }
+            jsonParser.decodeFromString<Map<String, Array<String>>>(jsonContent)
         } catch (e: Exception) {
             ChatLib.chat("$HEADER §4JSON読み込みエラー§f:§r §7${e.message}")
             mapOf() // エラーの場合は空のマップを返す
@@ -38,9 +42,17 @@ class DrawScreen {
         if (!config.isEnabled) return
         draw()
 
+        // 必要ならソートする
+        var sortedDraw: List<Triple<String, Boolean, Pair<Float, Float>>>
+        if (config.sortByLength) {
+            sortedDraw = toDraw.sortedBy { fontRenderer.getStringWidth(it.first) }
+        } else {
+            sortedDraw = toDraw
+        }
+
         // 画面にテキストを描画する処理
-        for (draw in toDraw) {
-            val text = draw.first
+        for (draw in sortedDraw) {
+            val text = draw.first.trim()
             val shadow = config.defaultTextShadow //Triple の二つ目は死ぬほど意味ないけど、そのうち使う多分
             val pos = draw.third
 
@@ -77,12 +89,17 @@ class DrawScreen {
 
             if (key.startsWith("$")) {
                 moduleName = moduleName.replace("&", "\u00A7")
-                moduleMode = moduleMode.replace("&", "\u00A7")
+                moduleMode = moduleMode.replace("&", "\u00A7").trim()
 
-                text = "$moduleName${if (moduleName.isEmpty()) "" else " $moduleMode"}"
+                text = moduleName + (if (moduleMode.isNotEmpty()) " $moduleMode" else "")
             } else {
-                text = "\u00A7b\u00A7l$moduleName${if (moduleName.isEmpty()) "" else " \u00A7r\u00A77$moduleMode"}"
+                text = "\u00A7b\u00A7l$moduleName" + (if (moduleMode.isNotEmpty()) " \u00A7r\u00A77$moduleMode" else "")
             }
+            if (text.isEmpty()) continue
+            if (config.descItalic) {
+                text = "\u00A7o$text"
+            }
+            text = text.trim().trimIndent()
 
             if (forcedPosition == "lu") {
                 toDraw.add(
@@ -103,6 +120,8 @@ class DrawScreen {
                 rightY += textHeight * scale
             }
         }
+
+
     }
 
     fun updateModuleList() {

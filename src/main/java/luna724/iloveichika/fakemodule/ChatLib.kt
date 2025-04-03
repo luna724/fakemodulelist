@@ -10,7 +10,7 @@ class ChatLib {
             ) ?: FMLLog.warning("ChatLib: $message")
         }
 
-        fun command(command: String) {
+        fun command(command: String, clientSide: Boolean = false) {
             MainMod.mc.thePlayer?.sendChatMessage("/$command")
                 ?: FMLLog.warning("ChatLib try to run: /$command")
         }
